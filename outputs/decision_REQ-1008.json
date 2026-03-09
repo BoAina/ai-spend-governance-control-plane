@@ -1,0 +1,25 @@
+{
+  "request_id": "REQ-1008",
+  "decision": "APPROVE",
+  "reason": "All policy conditions satisfied.",
+  "policy_rules_applied": [
+    "ALL_POLICY_CHECKS_PASSED"
+  ],
+  "required_approvers": [],
+  "erp_writeback_allowed": true,
+  "audit_steps": [
+    "Category 'SaaS_Subscription' is approved.",
+    "Vendor 'Notion' is not restricted.",
+    "Vendor 'Notion' is approved for category 'SaaS_Subscription'.",
+    "Amount is within single transaction limit.",
+    "Available budget is sufficient.",
+    "All deterministic policy checks passed."
+  ],
+  "request_summary": {
+    "vendor": "Notion",
+    "amount": 450.0,
+    "funding_source": "OPERATING",
+    "merchant_category": "SaaS_Subscription",
+    "budget_code": "IT-OPS-Q2"
+  }
+}

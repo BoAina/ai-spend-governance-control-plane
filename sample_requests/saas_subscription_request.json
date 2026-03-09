@@ -1,0 +1,12 @@
+{
+  "request_id": "REQ-1008",
+  "employee_id": "EMP-310",
+  "department": "IT",
+  "vendor": "Notion",
+  "description": "Team productivity software renewal",
+  "amount": 450.0,
+  "funding_source": "OPERATING",
+  "budget_code": "IT-OPS-Q2",
+  "merchant_category": "SaaS_Subscription",
+  "available_budget": 5000.0
+}

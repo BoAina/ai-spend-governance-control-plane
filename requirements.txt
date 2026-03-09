@@ -1,0 +1,7 @@
+# First pass uses Python standard library only.
+# No external dependencies required to run src/main.py
+#
+# Future passes will add:
+# openai        - AI classification layer (ai_reasoner.py)
+# fastapi       - REST API endpoint (api/main.py)
+# uvicorn       - ASGI server for FastAPI

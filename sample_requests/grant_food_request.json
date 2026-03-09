@@ -1,0 +1,12 @@
+{
+  "request_id": "REQ-1007",
+  "employee_id": "EMP-204",
+  "department": "RESEARCH_ADMIN",
+  "vendor": "Hilton Austin",
+  "description": "Catering for NIH grant kickoff meeting",
+  "amount": 875.0,
+  "funding_source": "NIH_GRANT",
+  "budget_code": "NIH-R01-47A",
+  "merchant_category": "Food_Beverage",
+  "available_budget": 12000.0
+}

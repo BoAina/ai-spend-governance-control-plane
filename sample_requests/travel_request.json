@@ -1,0 +1,12 @@
+{
+  "request_id": "REQ-1009",
+  "employee_id": "EMP-412",
+  "department": "FINANCE",
+  "vendor": "United Airlines",
+  "description": "Executive travel for finance transformation workshop",
+  "amount": 1600.0,
+  "funding_source": "OPERATING",
+  "budget_code": "FIN-TRAVEL-Q2",
+  "merchant_category": "Travel",
+  "available_budget": 10000.0
+}

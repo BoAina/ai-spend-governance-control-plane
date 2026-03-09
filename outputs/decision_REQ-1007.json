@@ -1,0 +1,31 @@
+{
+  "request_id": "REQ-1007",
+  "decision": "ESCALATE",
+  "reason": "Request requires additional approval before authorization.",
+  "policy_rules_applied": [
+    "FUNDING_SOURCE_REVIEW_REQUIRED",
+    "MANAGER_APPROVAL_THRESHOLD"
+  ],
+  "required_approvers": [
+    "department_director",
+    "grants_manager",
+    "manager"
+  ],
+  "erp_writeback_allowed": false,
+  "audit_steps": [
+    "Category 'Food_Beverage' is approved.",
+    "Vendor 'Hilton Austin' is not restricted.",
+    "Vendor 'Hilton Austin' is approved for category 'Food_Beverage'.",
+    "Amount is within single transaction limit.",
+    "Available budget is sufficient.",
+    "Funding source 'NIH_GRANT' requires review for category 'Food_Beverage'.",
+    "Amount exceeds manager approval threshold."
+  ],
+  "request_summary": {
+    "vendor": "Hilton Austin",
+    "amount": 875.0,
+    "funding_source": "NIH_GRANT",
+    "merchant_category": "Food_Beverage",
+    "budget_code": "NIH-R01-47A"
+  }
+}

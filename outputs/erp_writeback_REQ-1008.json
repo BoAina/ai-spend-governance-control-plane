@@ -1,0 +1,15 @@
+{
+  "request_id": "REQ-1008",
+  "erp_system": "MockERP",
+  "ledger_status": "READY_FOR_POSTING",
+  "timestamp_utc": "2026-03-09T00:49:03.838698+00:00",
+  "ledger_entry": {
+    "department": "IT",
+    "budget_code": "IT-OPS-Q2",
+    "vendor": "Notion",
+    "amount": 450.0,
+    "gl_account": "62150 - Software Subscription Expense",
+    "funding_source": "OPERATING",
+    "description": "Team productivity software renewal"
+  }
+}

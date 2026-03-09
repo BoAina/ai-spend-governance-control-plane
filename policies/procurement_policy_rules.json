@@ -1,0 +1,28 @@
+{
+  "global_rules": {
+    "approved_categories": [
+      "Travel",
+      "SaaS_Subscription",
+      "Office_Supplies",
+      "Food_Beverage"
+    ],
+    "restricted_vendors": [
+      "Gift Cards Unlimited"
+    ],
+    "single_transaction_limit": 1500.0,
+    "manager_approval_threshold": 500.0,
+    "director_approval_threshold": 1000.0
+  },
+  "approved_vendors_by_category": {
+    "Food_Beverage": ["Hilton Austin", "Aramark", "Sodexo"],
+    "SaaS_Subscription": ["OpenAI", "Notion", "Microsoft", "Salesforce"],
+    "Travel": ["United Airlines", "Delta", "Hilton Austin", "Marriott"],
+    "Office_Supplies": ["Staples", "Office Depot", "Amazon Business"]
+  },
+  "category_to_gl_account": {
+    "Food_Beverage": "63210 - Meeting Expense",
+    "SaaS_Subscription": "62150 - Software Subscription Expense",
+    "Travel": "63100 - Travel Expense",
+    "Office_Supplies": "61100 - Office Supplies Expense"
+  }
+}

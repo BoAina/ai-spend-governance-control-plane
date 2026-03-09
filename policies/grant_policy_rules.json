@@ -1,0 +1,27 @@
+{
+  "funding_source_rules": {
+    "NIH_GRANT": {
+      "review_categories": ["Food_Beverage"],
+      "deny_categories": ["Alcohol"],
+      "required_approvers_by_category": {
+        "Food_Beverage": ["grants_manager", "department_director"]
+      },
+      "notes": "Federal grant spend requires additional review for food and beverage per 2 CFR 200.432."
+    },
+    "DOE_GRANT": {
+      "review_categories": ["Food_Beverage", "Travel"],
+      "deny_categories": ["Alcohol"],
+      "required_approvers_by_category": {
+        "Food_Beverage": ["grants_manager"],
+        "Travel": ["grants_manager"]
+      },
+      "notes": "Department of Energy grants require review for travel and food spend."
+    },
+    "OPERATING": {
+      "review_categories": [],
+      "deny_categories": [],
+      "required_approvers_by_category": {},
+      "notes": "Operating budget follows standard procurement controls only."
+    }
+  }
+}

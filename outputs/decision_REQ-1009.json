@@ -1,0 +1,23 @@
+{
+  "request_id": "REQ-1009",
+  "decision": "DENY",
+  "reason": "Amount $1,600.00 exceeds single transaction limit of $1,500.00.",
+  "policy_rules_applied": [
+    "SINGLE_TRANSACTION_LIMIT"
+  ],
+  "required_approvers": [],
+  "erp_writeback_allowed": false,
+  "audit_steps": [
+    "Category 'Travel' is approved.",
+    "Vendor 'United Airlines' is not restricted.",
+    "Vendor 'United Airlines' is approved for category 'Travel'.",
+    "Denied: amount exceeds single transaction limit."
+  ],
+  "request_summary": {
+    "vendor": "United Airlines",
+    "amount": 1600.0,
+    "funding_source": "OPERATING",
+    "merchant_category": "Travel",
+    "budget_code": "FIN-TRAVEL-Q2"
+  }
+}
