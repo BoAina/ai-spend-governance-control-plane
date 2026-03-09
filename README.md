@@ -476,16 +476,6 @@ This document explains the architecture model, governance patterns, and system e
 
 ---
 
-## About Ainalabs
-
-Ainalabs is a personal research initiative exploring the intersection of:
-
-• AI systems architecture  
-• Financial infrastructure  
-• Deterministic governance
-
-The goal is to explore architectures that allow intelligent systems to participate in financial workflows while maintaining deterministic policy enforcement, auditability, and regulatory compliance.
-
 ---
 
 ## Author
@@ -496,6 +486,7 @@ Solution Engineer
 **Focus**  
 AI Governance  
 Financial Systems Architecture
+
 
 LinkedIn: [https://linkedin.com/in/boaina](https://linkedin.com/in/boaina)  
 GitHub: [https://github.com/boaina](https://github.com/boaina)
