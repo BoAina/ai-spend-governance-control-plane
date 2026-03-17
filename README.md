@@ -14,27 +14,15 @@ As AI systems begin participating in financial workflows (expenses, procurement,
 
 This repository explores architectural patterns that resolve that tension.
 
-Exploring architectures for governed AI operating inside real‑time financial authorization systems.
-
-This repository explores the architectural shift from **ERP reconciliation systems** to **real‑time fintech authorization platforms**, and how that shift changes where financial control actually lives inside modern infrastructure.
-
 > **Problem Statement**
-> 
+>
 > Modern financial systems increasingly operate in **real‑time authorization environments** where policy decisions must occur _before_ money moves.
-> 
+>
 > At the same time, AI systems introduce **probabilistic reasoning** into workflows that historically required **deterministic compliance and auditability**.
-> 
+>
 > The central architectural challenge explored in this repository:
-> 
+>
 > _How can probabilistic AI systems safely operate inside deterministic financial control environments?_
-
-In traditional ERP architectures, financial control occurs **after transactions happen** through reconciliation, reporting, and audit. In simple terms: companies review spending after the money has already moved. This creates an inherent delay between spending and governance.
-
-Modern fintech platforms moved financial policy into the **authorization layer**, allowing systems to approve or block transactions **before money moves**. Instead of reviewing spending later, the system decides in real time whether the transaction should happen at all.
-
-In this model, the **authorization system controls whether money can move**, while the **ledger records what happened after the decision**. This separation between authorization and ledger systems is a defining characteristic of modern fintech infrastructure.
-
-This architectural shift, from post‑transaction reconciliation to real‑time authorization, is the foundation that enables governed AI participation in financial workflows.
 
 _Note: This repository is an architecture exploration and research prototype examining governance patterns for AI in financial systems._
 
@@ -89,7 +77,6 @@ The governance control plane ensures that probabilistic AI reasoning can partici
 - [Financial Control Evolution](#financial-control-evolution)
 - [Core Architecture Principle](#core-architecture-principle)
 - [Example Financial Workflow](#example-financial-workflow)
-- [The Architecture Problem](#the-architecture-problem)
 - [Architecture Progression](#architecture-progression)
 - [Public Sector Compliance Constraints](#public-sector-compliance-constraints)
 - [ERP Integration Patterns](#erp-integration-patterns)
@@ -100,12 +87,6 @@ The governance control plane ensures that probabilistic AI reasoning can partici
 - [About Ainalabs](#about-ainalabs)
 - [Author](#author)
     
-
----
-
-## Financial Architecture Context
-
-Modern financial infrastructure increasingly operates in **real‑time authorization environments** where policy decisions must occur before money moves. AI systems introduce probabilistic reasoning into environments that require deterministic governance, compliance, and auditability. The following sections explore how these two models can coexist safely.
 
 ---
 
@@ -189,16 +170,6 @@ Ledger records the approved transaction
 ```
 
 This scenario demonstrates how probabilistic AI interpretation can operate safely when deterministic policy systems control final authorization.
-
----
-
-## The Architecture Problem
-
-AI systems reason probabilistically.
-
-Financial authorization systems require deterministic control, strict compliance, and complete audit traceability.
-
-As AI begins to participate directly in financial workflows, architectures must reconcile these two fundamentally different models of decision making. The goal is to allow AI reasoning to assist financial processes while ensuring that deterministic policy systems remain the final authority over financial actions.
 
 ---
 
