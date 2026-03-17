@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ramp API → Spend Governance Control Plane</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    padding: 40px 32px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 40px;
+  }
+  .diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .layer {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    position: relative;
+  }
+  .layer-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #475569;
+    min-width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .layer-content {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+  }
+  .block {
+    border-radius: 10px;
+    padding: 16px 18px;
+    flex: 1;
+    position: relative;
+    border: 1px solid;
+  }
+  .block-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .block-sub {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+  }
+  .block-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .block-items li {
+    font-size: 11px;
+    color: #cbd5e1;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+  .block-items li span {
+    color: #64748b;
+    font-size: 10px;
+    margin-left: 6px;
+  }
+  .blue   { background: rgba(59,130,246,0.07);  border-color: rgba(59,130,246,0.3);  }
+  .blue   .block-title { color: #60a5fa; }
+  .purple { background: rgba(139,92,246,0.07);  border-color: rgba(139,92,246,0.3);  }
+  .purple .block-title { color: #a78bfa; }
+  .orange { background: rgba(249,115,22,0.07);  border-color: rgba(249,115,22,0.3);  }
+  .orange .block-title { color: #fb923c; }
+  .green  { background: rgba(34,197,94,0.07);   border-color: rgba(34,197,94,0.3);   }
+  .green  .block-title { color: #4ade80; }
+  .slate  { background: rgba(100,116,139,0.07); border-color: rgba(100,116,139,0.3); }
+  .slate  .block-title { color: #94a3b8; }
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 0;
+  }
+  .arrow-spacer { min-width: 20px; }
+  .arrow-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .arrow-line {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, #334155, #475569);
+  }
+  .arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #475569;
+  }
+  .arrow-label {
+    font-size: 10px;
+    color: #475569;
+    font-family: "SF Mono", "Fira Code", monospace;
+    background: #0f1117;
+    padding: 0 6px;
+    margin-top: -4px;
+  }
+  .txn-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  .txn-table th {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    text-align: left;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .txn-table td {
+    font-size: 11px;
+    padding: 5px 8px;
+    color: #cbd5e1;
+    font-family: "SF Mono", "Fira Code", monospace;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .txn-table tr:last-child td { border-bottom: none; }
+  .txn-table td:first-child { color: #64748b; }
+  /* highlight rows that pass both gates */
+  .txn-table tr.both-pass td { background: rgba(34,197,94,0.05); }
+  .txn-table tr.both-pass td:first-child { color: #4ade80; }
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .approve  { background: rgba(34,197,94,0.15);  color: #4ade80; }
+  .deny     { background: rgba(239,68,68,0.15);   color: #f87171; }
+  .escalate { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+  .diverge  { color: #f87171; font-size: 10px; }
+  .agree    { color: #64748b; font-size: 10px; }
+  .both-ok  { color: #4ade80; font-size: 10px; font-weight: 600; }
+  .output-row {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+  }
+  .insight {
+    max-width: 900px;
+    margin: 24px auto 0;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.2);
+    font-size: 12px;
+    color: #a5b4fc;
+    line-height: 1.6;
+  }
+  .insight strong { color: #c7d2fe; }
+  .workday-note {
+    font-size: 10px;
+    color: #60a5fa;
+    margin-top: 6px;
+    padding: 4px 8px;
+    background: rgba(59,130,246,0.08);
+    border-radius: 5px;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+</style>
+</head>
+<body>
+<h1>Ramp API → Spend Governance Control Plane</h1>
+<p class="subtitle">Full system architecture · Built 2026-03-15 · 8 transactions · 2 clear both gates</p>
+
+<div class="diagram">
+
+  <!-- ══ LAYER 1: RAMP MOCK API ══ -->
+  <div class="layer">
+    <div class="layer-label">Mock API</div>
+    <div class="layer-content">
+      <div class="block blue" style="flex:1.4">
+        <div class="block-title">Ramp Mock API</div>
+        <div class="block-sub">FastAPI · port 8100 · Bearer token auth</div>
+        <ul class="block-items">
+          <li>GET /developer/graphql/v1/transactions <span>list + filter</span></li>
+          <li>GET /developer/graphql/v1/transactions/{id} <span>single lookup</span></li>
+          <li>GET /developer/graphql/v1/transactions/{id}/policy_check <span>mock gate</span></li>
+          <li>GET /developer/graphql/v1/cards <span>+ /{id}</span></li>
+          <li>GET /developer/graphql/v1/users</li>
+          <li>GET /developer/graphql/v1/departments</li>
+          <li>GET /developer/graphql/v1/accounting/sync_records</li>
+        </ul>
+      </div>
+      <div class="block slate" style="flex:0.8">
+        <div class="block-title">Seed Data</div>
+        <div class="block-sub">Relationally consistent org graph</div>
+        <ul class="block-items">
+          <li>5 departments</li>
+          <li>5 users (1 ADMIN)</li>
+          <li>4 cards (cents limits)</li>
+          <li>8 transactions (cents)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- arrow -->
+  <div class="arrow-row">
+    <div class="arrow-spacer"></div>
+    <div class="arrow-body">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label">GET /transactions → 8 txns (amounts in cents)</div>
+    </div>
+  </div>
+
+  <!-- ══ LAYER 2: WIRE ══ -->
+  <div class="layer">
+    <div class="layer-label">Wire</div>
+    <div class="layer-content">
+      <div class="block purple">
+        <div class="block-title">wire.py — The Connector</div>
+        <div class="block-sub">Pulls, transforms, routes</div>
+        <ul class="block-items">
+          <li>Auth header → mock_ramp_token_ainalabs_2026</li>
+          <li>MCC code → category (lookup table)</li>
+          <li>cents ÷ 100 → dollars</li>
+          <li>Build policy gate request payload</li>
+          <li>Call control plane for each transaction</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- arrow -->
+  <div class="arrow-row">
+    <div class="arrow-spacer"></div>
+    <div class="arrow-body">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label">Transformed payload → policy gate</div>
+    </div>
+  </div>
+
+  <!-- ══ LAYER 3: POLICY GATE ══ -->
+  <div class="layer">
+    <div class="layer-label">Policy Gate</div>
+    <div class="layer-content">
+      <div class="block orange">
+        <div class="block-title">Spend Governance Control Plane</div>
+        <div class="block-sub">Deterministic · 7-check framework · No AI · ✅ = passes both Ramp + Gate</div>
+        <table class="txn-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Merchant</th>
+              <th>Amount</th>
+              <th>Ramp Signal</th>
+              <th>Gate Result</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="both-pass">
+              <td>txn_007</td>
+              <td>Marriott Hotels</td>
+              <td>$380</td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td class="both-ok">✅ both pass</td>
+            </tr>
+            <tr class="both-pass">
+              <td>txn_008</td>
+              <td>Amazon Business</td>
+              <td>$95</td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td class="both-ok">✅ both pass</td>
+            </tr>
+            <tr>
+              <td>txn_001</td>
+              <td>Delta Airlines</td>
+              <td>$625</td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td><span class="pill escalate">ESCALATE</span></td>
+              <td class="diverge">⚡ diverge</td>
+            </tr>
+            <tr>
+              <td>txn_002</td>
+              <td>GitHub</td>
+              <td>$40</td>
+              <td><span class="pill approve">APPROVE</span></td>
+              <td><span class="pill escalate">ESCALATE</span></td>
+              <td class="diverge">⚡ diverge</td>
+            </tr>
+            <tr>
+              <td>txn_003</td>
+              <td>Nobu Restaurant</td>
+              <td>$840</td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td class="agree">✓ agree</td>
+            </tr>
+            <tr>
+              <td>txn_004</td>
+              <td>Best Buy</td>
+              <td>$2,499</td>
+              <td><span class="pill deny">DENY</span></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td class="agree">✓ agree</td>
+            </tr>
+            <tr>
+              <td>txn_005</td>
+              <td>Salesforce</td>
+              <td>$48,000</td>
+              <td><span class="pill escalate">ESCALATE</span></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td class="diverge">⚡ diverge</td>
+            </tr>
+            <tr>
+              <td>txn_006</td>
+              <td>Unknown Vendor</td>
+              <td>$750</td>
+              <td><span class="pill escalate">ESCALATE</span></td>
+              <td><span class="pill deny">DENY</span></td>
+              <td class="diverge">⚡ diverge</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- arrow -->
+  <div class="arrow-row">
+    <div class="arrow-spacer"></div>
+    <div class="arrow-body">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+      <div class="arrow-label">APPROVE / DENY / ESCALATE + rule citation</div>
+    </div>
+  </div>
+
+  <!-- ══ LAYER 4: OUTPUTS ══ -->
+  <div class="layer">
+    <div class="layer-label">Outputs</div>
+    <div class="layer-content">
+      <div class="output-row">
+        <div class="block green">
+          <div class="block-title">Audit Trail</div>
+          <div class="block-sub">outputs/decision_*.json</div>
+          <ul class="block-items">
+            <li>transaction_id</li>
+            <li>merchant + amount</li>
+            <li>gate_result</li>
+            <li>rule_citation</li>
+            <li>timestamp</li>
+          </ul>
+        </div>
+        <div class="block green">
+          <div class="block-title">ERP Writeback</div>
+          <div class="block-sub">outputs/erp_writeback_*.json</div>
+          <ul class="block-items">
+            <li>GL code</li>
+            <li>vendor name</li>
+            <li>amount (dollars)</li>
+            <li>rule citation</li>
+            <li>→ Oracle Expenses ready</li>
+          </ul>
+          <div class="workday-note">DR: Expense Account · CR: Ramp Liability · GL account code alias + Oracle journal category passed through</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="insight">
+  <strong>The key insight:</strong> Ramp enforces <strong>card policy</strong> — spend limits, category restrictions, CFO thresholds. The control plane enforces <strong>procurement policy</strong> — approved vendor lists, hard dollar limits, ERP readiness rules. They run independently on the same transaction. <strong>txn_007 (Marriott $380) and txn_008 (Amazon Business $95)</strong> clear both gates: within card limit, approved category, approved vendor, Oracle Expenses-ready journal entry. Divergent outcomes (txn_001, 002, 005, 006) are not bugs — they are the architecture. The Controller sees both layers.
+</div>
+
+</body>
+</html>
