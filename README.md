@@ -1,5 +1,7 @@
 **Thesis:** Financial AI can reason probabilistically, but the movement of money must always be governed by deterministic authorization systems.
 
+> This repository is the working prototype companion to the essay [When Spend Intelligence Meets ERP Intelligence](https://ainalabs.ai/essays/when-spend-intelligence-meets-erp-intelligence).
+
 ![Architecture Exploration](https://img.shields.io/badge/Focus-Fintech%20Systems%20Architecture-blue)  
 ![Domain](https://img.shields.io/badge/Domain-AI%20Governance%20%26%20Financial%20Infrastructure-purple)  
 ![Type](https://img.shields.io/badge/Project-Architecture%20Exploration-lightgrey)
@@ -203,8 +205,14 @@ Deterministic policy validation separated from AI reasoning.
 **V4 - Real‑Time Spend Authorization**  
 Policy engines operate at transaction authorization.
 
-**V5 - AI Governance Control Plane**  
+**V5 - AI Governance Control Plane**
 Centralized governance layer managing multiple AI financial agents.
+
+> **What's prototyped here**
+>
+> Rather than simulating the full V1→V5 evolution, this repository contains a working illustration of the V4/V5 boundary: a mock fintech platform (card authorization layer) running alongside a deterministic governance control plane. The same transaction passes through both gates independently. The divergent outcomes across 8 transactions show exactly where the two planes agree, where they diverge, and why both are necessary.
+>
+> The mock fintech server (`ramp-mock/mock_server.py`) stands in for the card network authorization layer. `wire.py` connects it to the control plane. The dashboard visualizes all 8 decisions side by side. Two transactions — `txn_007` and `txn_008` — clear both gates. The rest surface the gaps the architecture is designed to expose.
 
 ---
 
