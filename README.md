@@ -470,4 +470,6 @@ Financial Systems Architecture
 LinkedIn: [https://linkedin.com/in/boaina](https://linkedin.com/in/boaina)  
 GitHub: [https://github.com/boaina](https://github.com/boaina)
 
+Bo Aina writes about AI governance, financial systems architecture, and the structural shift from post-transaction ERP control to real-time authorization platforms. More at [ainalabs.ai](https://ainalabs.ai/) and github.com/BoAina.
+
 ---
